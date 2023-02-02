@@ -5,24 +5,22 @@
 #include "Comms.h"
 #include "Server.cpp"
 #include "Client.cpp"
-
-#ifdef SERVER
-#define ENABLE_SERVER
-#endif
-
-#ifdef CLIENT
-#define ENABLE_CLIENT
-#endif
-
-#ifdef ENABLE_SERVER
-
-#endif
-
 using namespace std;
 
-int main(int argc, char* argv[]) {
-	Server socketsServer;
 
+#define ENABLE_SERVER
+
+int main(int argc, char* argv[]) {
+
+
+#ifdef ENABLE_SERVER
+	Server socketsServer;
+	socketsServer.start();
+#endif
+
+
+#ifdef ENABLE_CLIENT
+	cout << "Starting client..." << endl;
 	socketsServer.initialise();
 	socketsServer.createSocket();
 	socketsServer.bindSocket();
@@ -30,8 +28,7 @@ int main(int argc, char* argv[]) {
 	socketsServer.accept_socket();
 	socketsServer.enterMessage();
 	socketsServer.displayMessage();
-
-
+#endif
 
 	return 0;
 }
