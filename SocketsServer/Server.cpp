@@ -12,8 +12,8 @@ public:
 		Comms::bindSocket();
 		Comms::listenSocket();
 		Comms::accept_socket();
-		Comms::enterMessage();
 		Comms::displayMessage();
+		Comms::enterMessage();
 	}
 };
 

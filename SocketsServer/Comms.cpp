@@ -39,25 +39,9 @@ void Comms::createSocket() {
 	}
 }
 
-//void Comms::bindSocket() {
-//	sockaddr_in service;
-//	service.sin_family = AF_INET;
-//	InetPton(AF_INET, _T("127.0.0.1"), &service.sin_addr.s_addr);
-//	service.sin_port = htons(port);
-//	if (bind(mySocket, (SOCKADDR*)&service, sizeof(service)) == SOCKET_ERROR) {
-//		cout << "bind() failed: " << WSAGetLastError() << endl;
-//		closesocket(mySocket);
-//		WSACleanup();
-//		return;
-//	}
-//	else {
-//		cout << "bind() is OK!" << endl;
-//	}
-//}
-
 void Comms::bindSocket() {
 	try {
-		sockaddr_in service;
+		sockaddr_in service{};
 		service.sin_family = AF_INET;
 		InetPton(AF_INET, _T("127.0.0.1"), &service.sin_addr.s_addr);
 		service.sin_port = htons(port);
@@ -75,16 +59,6 @@ void Comms::bindSocket() {
 	}
 }
 
-//void Comms::listenSocket() {
-//	if (listen(mySocket, 1) == SOCKET_ERROR) {
-//		cout << "listen(): Error listening on socket " << WSAGetLastError() << endl;
-//		return;
-//	}
-//	else {
-//		cout << "listen() is OK, I'm waiting for connections..." << endl;
-//	}
-//}
-
 void Comms::listenSocket() {
 	try {
 		if (listen(mySocket, 1) == SOCKET_ERROR) {
@@ -98,34 +72,6 @@ void Comms::listenSocket() {
 		cout << "Error listening on socket: " << e.what() << " error code: " << e.getErrorCode() << endl;
 	}
 }
-
-
-//void Comms::accept_socket() {
-//	fromlen = sizeof(from);
-//	acceptSocket = accept(mySocket, (SOCKADDR*)&from, &fromlen);
-//	// acceptSocket = accept(serverSocket, NULL, NULL);
-//	if (acceptSocket == INVALID_SOCKET) {
-//		cout << "accept failed: " << WSAGetLastError() << endl;
-//		WSACleanup();
-//		return;
-//	}
-//	else {
-//		cout << "Accepted connection" << endl;
-//		retval = getnameinfo((SOCKADDR*)&from,
-//			fromlen,
-//			hoststr,
-//			NI_MAXHOST,
-//			servstr,
-//			NI_MAXSERV,
-//			NI_NUMERICHOST | NI_NUMERICSERV);
-//		if (retval != 0) {
-//			cout << "getnameinfo failed: " << retval << endl;
-//			WSACleanup();
-//			return;
-//		}
-//		cout << "Accepted connection from host " << hoststr << " and port " << servstr << endl;
-//	}
-//}
 
 void Comms::accept_socket() {
 	try {
@@ -160,24 +106,6 @@ void Comms::accept_socket() {
 	}
 }
 
-//void Comms::enterMessage() {
-//	char buffer[200];
-//	while (1) {
-//		cout << "Enter your message : ";
-//		cin.getline(buffer, 200);
-//		int byteCount = send(mySocket, buffer, 200, 0);
-//		if (byteCount == 0) {
-//			cout << "Error" << endl;
-//		}
-//		else {
-//			cout << "Bytes sent : " << byteCount << endl;
-//			if (strcmp(buffer, "QUIT") == 0) {
-//				break;
-//			}
-//		}
-//	}
-//}
-
 void Comms::enterMessage() {
 	try {
 		char buffer[200];
@@ -199,43 +127,6 @@ void Comms::enterMessage() {
 		cout << "Error code: " << e.getErrorCode() << endl;
 	}
 }
-
-//void Comms::displayMessage() {
-//	char buffer1[200] = "Message received";
-//	int byteCount = send(mySocket, buffer1, 200, 0);
-//	if (byteCount == 0) {
-//		cout << "Error" << endl;
-//	}
-//	else {
-//		cout << "Bytes sent : " << byteCount << endl;
-//	}
-//}
-
-//void Comms::displayMessage() {
-//	try {
-//		char buffer1[200] = "Message received";
-//		int byteCount = send(mySocket, buffer1, 200, 0);
-//		if (byteCount == SOCKET_ERROR) {
-//			int errorCode = WSAGetLastError();
-//			if (errorCode == WSAEINVAL) {
-//				throw InvalidSocketException(errorCode);
-//			}
-//			else {
-//				throw runtime_error("Unknown error occurred");
-//			}
-//		}
-//		else {
-//			cout << "Bytes sent : " << byteCount << endl;
-//		}
-//	}
-//	catch (const InvalidSocketException& e) {
-//		cout << "Error: " << e.what() << endl;
-//		cout << "Error code: " << e.getErrorCode() << endl;
-//	}
-//	catch (const runtime_error& e) {
-//		cout << "Error: " << e.what() << endl;
-//	}
-//}
 
 void Comms::displayMessage() {
 	try {

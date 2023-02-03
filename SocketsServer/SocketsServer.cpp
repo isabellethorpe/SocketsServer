@@ -20,14 +20,8 @@ int main(int argc, char* argv[]) {
 
 
 #ifdef ENABLE_CLIENT
-	cout << "Starting client..." << endl;
-	socketsServer.initialise();
-	socketsServer.createSocket();
-	socketsServer.bindSocket();
-	socketsServer.listenSocket();
-	socketsServer.accept_socket();
-	socketsServer.enterMessage();
-	socketsServer.displayMessage();
+	Client socketsClient;
+	socketsClient.start();
 #endif
 
 	return 0;
