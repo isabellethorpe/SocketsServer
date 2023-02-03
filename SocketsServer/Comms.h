@@ -2,7 +2,7 @@
 #include <winsock2.h>
 #include <ws2tcpip.h>
 #include <tchar.h>
-#include "iostream"
+#include <iostream>
 
 
 class Comms {
@@ -25,6 +25,6 @@ public:
 	virtual void listenSocket();
 	virtual void connectSocket();
 	virtual void accept_socket();
-	virtual void enterMessage();
-	virtual void displayMessage();
+	virtual void serverMessage();
+	virtual void clientMessage();
 };

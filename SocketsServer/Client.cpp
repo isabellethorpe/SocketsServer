@@ -10,8 +10,7 @@ public:
 		Comms::initialise();
 		Comms::createSocket();
 		Comms::connectSocket();
-		Comms::enterMessage();
-		Comms::displayMessage();
+		Comms::clientMessage();
 	}
 };
 

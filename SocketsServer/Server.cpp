@@ -1,9 +1,11 @@
 #include "Comms.h"
+#include <iostream>
 
 using namespace std;
 
 class Server : public Comms {
 public:
+
 	void start() {
 
 		cout << "Starting server..." << endl;
@@ -12,8 +14,7 @@ public:
 		Comms::bindSocket();
 		Comms::listenSocket();
 		Comms::accept_socket();
-		Comms::displayMessage();
-		Comms::enterMessage();
+		Comms::serverMessage();
 	}
 };
 
