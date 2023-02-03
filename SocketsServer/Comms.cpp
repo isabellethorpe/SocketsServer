@@ -39,25 +39,42 @@ void Comms::createSocket() {
 	}
 }
 
+//void Comms::bindSocket() {
+//	try {
+//		sockaddr_in service{};
+//		service.sin_family = AF_INET;
+//		InetPton(AF_INET, _T("127.0.0.1"), &service.sin_addr.s_addr);
+//		service.sin_port = htons(port);
+//		if (bind(mySocket, (SOCKADDR*)&service, sizeof(service)) == SOCKET_ERROR) {
+//			throw InvalidSocketException(WSAGetLastError());
+//		}
+//		else {
+//			cout << "bind() is OK!" << endl;
+//		}
+//	}
+//	catch (const InvalidSocketException& e) {
+//		cout << "Invalid socket created: " << e.what() << " error code: " << e.getErrorCode() << endl;
+//		closesocket(mySocket);
+//		WSACleanup();
+//	}
+//}
+
 void Comms::bindSocket() {
-	try {
-		sockaddr_in service{};
-		service.sin_family = AF_INET;
-		InetPton(AF_INET, _T("127.0.0.1"), &service.sin_addr.s_addr);
-		service.sin_port = htons(port);
-		if (bind(mySocket, (SOCKADDR*)&service, sizeof(service)) == SOCKET_ERROR) {
-			throw InvalidSocketException(WSAGetLastError());
-		}
-		else {
-			cout << "bind() is OK!" << endl;
-		}
-	}
-	catch (const InvalidSocketException& e) {
-		cout << "Invalid socket created: " << e.what() << " error code: " << e.getErrorCode() << endl;
+	sockaddr_in service;
+	service.sin_family = AF_INET;
+	InetPton(AF_INET, _T("127.0.0.1"), &service.sin_addr.s_addr);
+	service.sin_port = htons(port);
+	if (bind(mySocket, (SOCKADDR*)&service, sizeof(service)) == SOCKET_ERROR) {
+		cout << "bind() failed: " << WSAGetLastError() << endl;
 		closesocket(mySocket);
 		WSACleanup();
+		return;
+	}
+	else {
+		cout << "bind() is OK!" << endl;
 	}
 }
+
 
 void Comms::listenSocket() {
 	try {
@@ -72,6 +89,25 @@ void Comms::listenSocket() {
 		cout << "Error listening on socket: " << e.what() << " error code: " << e.getErrorCode() << endl;
 	}
 }
+
+
+
+void Comms::connectSocket() {
+	sockaddr_in service{};
+	service.sin_family = AF_INET;
+	InetPton(AF_INET, _T("127.0.0.1"), &service.sin_addr.s_addr);
+	service.sin_port = htons(port);
+	if (connect(mySocket, (SOCKADDR*)&service, sizeof(service)) == SOCKET_ERROR) {
+		cout << "Client: connect() - Failed to connect." << endl;
+		WSACleanup();
+		return;
+	}
+	else {
+		cout << "Client: connect() is OK." << endl;
+		cout << "Client: Can start sending and receiving data..." << endl;
+	}
+}
+
 
 void Comms::accept_socket() {
 	try {

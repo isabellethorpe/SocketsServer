@@ -20,9 +20,10 @@ private:
 
 public:
 	virtual void initialise();
-	virtual void createSocket();
+	virtual void createSocket();;
 	virtual void bindSocket();
 	virtual void listenSocket();
+	virtual void connectSocket();
 	virtual void accept_socket();
 	virtual void enterMessage();
 	virtual void displayMessage();

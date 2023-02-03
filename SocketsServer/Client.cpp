@@ -9,7 +9,7 @@ public:
 		cout << "Starting client..." << endl;
 		Comms::initialise();
 		Comms::createSocket();
-		Comms::bindSocket();
+		Comms::connectSocket();
 		Comms::enterMessage();
 		Comms::displayMessage();
 	}
