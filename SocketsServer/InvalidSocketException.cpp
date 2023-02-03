@@ -8,6 +8,7 @@ class InvalidSocketException : public exception {
 private:
     int errorCode;
 public:
+    // Exception thrown when an invalid socket is created
     InvalidSocketException(int errorCode) : errorCode(errorCode) {}
 
     const char* what() const throw() {

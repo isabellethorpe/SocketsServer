@@ -3,6 +3,7 @@
 #include "InvalidSocketException.cpp"
 
 
+// Initalises Winsock API and checks if it's found
 void Comms::initialise() {
 	try {
 		WORD wVersionRequested = MAKEWORD(2, 2);
@@ -12,16 +13,17 @@ void Comms::initialise() {
 		}
 		else {
 			cout << "The Winsock dll found!" << endl;
-			cout << "The status: " << wsaData.szSystemStatus << endl;
+			cout << "The status : " << wsaData.szSystemStatus << endl;
 		}
 	}
 	catch (const WinsockDllNotFoundException& e) {
-		cout << "An error occurred while initialising Winsock: " << e.what() << endl;
+		cout << "An error occurred while initialising Winsock : " << e.what() << endl;
 		WSACleanup();
 		exit(EXIT_FAILURE);
 	}
 }
 
+// Creates a socket and checks it's created properly
 void Comms::createSocket() {
 	try {
 		mySocket = INVALID_SOCKET;
@@ -34,11 +36,12 @@ void Comms::createSocket() {
 		}
 	}
 	catch (const InvalidSocketException& e) {
-		cout << "Error at socket(): " << e.getErrorCode() << endl;
+		cout << "Error at socket() : " << e.getErrorCode() << endl;
 		WSACleanup();
 	}
 }
 
+// Binds the socket 
 void Comms::bindSocket() {
 	try {
 		sockaddr_in service{};
@@ -53,13 +56,13 @@ void Comms::bindSocket() {
 		}
 	}
 	catch (const InvalidSocketException& e) {
-		cout << "Invalid socket created: " << e.what() << " error code: " << e.getErrorCode() << endl;
+		cout << "Invalid socket created : " << e.what() << " error code: " << e.getErrorCode() << endl;
 		closesocket(mySocket);
 		WSACleanup();
 	}
 }
 
-
+// Socket set to listen for a connection
 void Comms::listenSocket() {
 	try {
 		if (listen(mySocket, 1) == SOCKET_ERROR) {
@@ -70,10 +73,11 @@ void Comms::listenSocket() {
 		}
 	}
 	catch (const InvalidSocketException& e) {
-		cout << "Error listening on socket: " << e.what() << " error code: " << e.getErrorCode() << endl;
+		cout << "Error listening on socket : " << e.what() << " error code : " << e.getErrorCode() << endl;
 	}
 }
 
+// Connects the socket
 void Comms::connectSocket() {
 	try {
 		sockaddr_in service{};
@@ -81,7 +85,7 @@ void Comms::connectSocket() {
 		InetPton(AF_INET, _T("127.0.0.1"), &service.sin_addr.s_addr);
 		service.sin_port = htons(port);
 		if (connect(mySocket, (SOCKADDR*)&service, sizeof(service)) == SOCKET_ERROR) {
-			throw runtime_error("Failed to connect.");
+			throw runtime_error("Failed to connect");
 		}
 	}
 	catch (const runtime_error& e) {
@@ -93,6 +97,7 @@ void Comms::connectSocket() {
 	cout << "Client: Can start sending and receiving data..." << endl;
 }
 
+// Accepts incoming connection
 void Comms::accept_socket() {
 	try {
 		fromlen = sizeof(from);
@@ -110,7 +115,7 @@ void Comms::accept_socket() {
 				NI_MAXSERV,
 				NI_NUMERICHOST | NI_NUMERICSERV);
 			if (retval != 0) {
-				cout << "getnameinfo failed: " << retval << endl;
+				cout << "getnameinfo failed : " << retval << endl;
 				WSACleanup();
 				return;
 			}
@@ -119,12 +124,13 @@ void Comms::accept_socket() {
 	}
 	catch (InvalidSocketException& e) {
 		cout << "Error: " << e.what() << endl;
-		cout << "Error Code: " << e.getErrorCode() << endl;
+		cout << "Error Code : " << e.getErrorCode() << endl;
 		WSACleanup();
 		return;
 	}
 }
 
+// Messaging service for server
 void Comms::serverMessage() {
 	try {
 		char buffer[200];
@@ -155,11 +161,11 @@ void Comms::serverMessage() {
 		}
 	}
 	catch (const InvalidSocketException& e) {
-		cout << "Error: " << e.what() << " with error code: " << e.getErrorCode() << endl;
+		cout << "Error : " << e.what() << " with error code : " << e.getErrorCode() << endl;
 	}
 }
 
-
+// Messaging service for client
 void Comms::clientMessage() {
 	try {
 		char buffer[200];
@@ -187,6 +193,6 @@ void Comms::clientMessage() {
 		}
 	}
 	catch (const InvalidSocketException& e) {
-		cout << "Error: " << e.what() << " with error code: " << e.getErrorCode() << endl;
+		cout << "Error : " << e.what() << " with error code : " << e.getErrorCode() << endl;
 	}
 }
